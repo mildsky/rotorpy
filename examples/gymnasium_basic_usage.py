@@ -35,15 +35,16 @@ Inputs:
             '3D': will render the quadrotor in 3D. WARNING: THIS IS SLOW. 
 
 """
-env = gym.make("Quadrotor-v0", 
-                control_mode ='cmd_motor_speeds', 
-                reward_fn = hover_reward,
-                quad_params = quad_params,
-                max_time = 5,
-                world = None,
-                sim_rate = 100,
-                render_mode='3D',
-                render_fps=30)
+# env = gym.make("Quadrotor-v0", 
+#                 control_mode ='cmd_motor_speeds', 
+#                 reward_fn = hover_reward,
+#                 quad_params = quad_params,
+#                 max_time = 5,
+#                 world = None,
+#                 sim_rate = 100,
+#                 render_mode='3D',
+#                 render_fps=30)
+env = QuadrotorEnv(control_mode ='cmd_motor_speeds', reward_fn=hover_reward, quad_params=quad_params, max_time=5, render_mode='3D')
 
 # Now reset the quadrotor.
 # Setting initial_state to 'random' will randomly place the vehicle in the map near the origin.
