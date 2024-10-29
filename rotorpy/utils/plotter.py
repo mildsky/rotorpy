@@ -16,11 +16,11 @@ class Plotter():
 
     def __init__(self, results, world):
 
-        (self.time, self.x, self.x_des, self.v, 
-        self.v_des, self.q, self.q_des, self.w, 
+        (self.time, self.x, self.x_des, self.v,
+        self.v_des, self.q, self.q_des, self.w, self.w_des,
         self.s, self.s_des, self.M, self.T, self.wind,
         self.accel, self.gyro, self.accel_gt,
-        self.x_mc, self.v_mc, self.q_mc, self.w_mc, 
+        self.x_mc, self.v_mc, self.q_mc, self.w_mc,
         self.filter_state, self.covariance, self.sd) = self.unpack_results(results)
 
         self.R = Rotation.from_quat(self.q).as_matrix()
@@ -71,6 +71,7 @@ class Plotter():
         ax.set_xlabel('time, s')
         ax.grid('major')
         ax = axes[1]
+        ax.plot(self.time, self.w_des[:,0], 'r', self.time, self.w_des[:,1], 'g', self.time, self.w_des[:,2], 'b')
         ax.plot(self.time, self.w[:,0], 'r.', self.time, self.w[:,1], 'g.', self.time, self.w[:,2], 'b.')
         ax.legend(('x', 'y', 'z'))
         ax.set_ylabel('angular velocity, rad/s')
@@ -235,6 +236,7 @@ class Plotter():
         q = state['q']
         q_des = control['cmd_q']
         w = state['w']
+        w_des = control['cmd_w']
 
         s_des = control['cmd_motor_speeds']
         s = state['rotor_speeds']
@@ -262,7 +264,7 @@ class Plotter():
             sd = []
             self.estimator_exists = False
 
-        return (time, x, x_des, v, v_des, q, q_des, w, s, s_des, M, T, wind, accel, gyro, accel_gt, x_mc, v_mc, q_mc, w_mc, filter_state, covariance, sd)
+        return (time, x, x_des, v, v_des, q, q_des, w, w_des, s, s_des, M, T, wind, accel, gyro, accel_gt, x_mc, v_mc, q_mc, w_mc, filter_state, covariance, sd)
 
 def plot_map(ax, world_data, equal_aspect=True, color=None, edgecolor=None, alpha=1, world_bounds=True, axes=True):
     """
